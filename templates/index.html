@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <title>Question Answering</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="description">
+        <h1>Reciept Analyzer</h1>
+        <p>This model is trained on LayoutLM v2 and is sourced directly from Hugging Face's pipeline. It's designed to extract details from invoices, such as the name, address, total, and subtotal. If you have a custom question about a receipt, simply enter it below and click "Analyze". The tool accepts both images and PDFs.</p>
+    </div>
+    
+<h2>Upload a file for analysis</h2>
+<form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <br>
+    <input type="submit" value="Analyze">
+</form>
+<div id="loading" style="display:none;">
+    <i class="fas fa-spinner fa-spin"></i> <!-- This is the spinner -->
+    <h4>Please hold on... The model is processing your request. It might take a couple of minutes to fetch the results. Your patience is appreciated. Thank you!</h4>
+    <p>Analysis is being done.</p>
+</div>
+
+<h3>Analysis is below:</h3>
+<div id="answers"></div>
+
+<h4>Have another question?</h4>
+<form id="customQuestionForm">
+    <input type="text" name="custom_question" placeholder="Enter your custom question">
+    <br>
+    <input type="submit" value="Analyze">
+</form>
+<div id="loading" style="display:none;">Analyzing, please wait...</div>
+<div id="customAnswer"></div>
+
+
+<script>
+$('#uploadForm').on('submit', function(e) {
+    e.preventDefault();
+    
+    // Show loading div
+    $('#loading').show();
+    
+    var formData = new FormData(this);
+    $.ajax({
+        url: '/',
+        type: 'POST',
+        data: formData,
+        success: function(data) {
+            // Hide loading div
+            $('#loading').hide();
+
+            $('#answers').empty();
+            for (const [question, answer] of Object.entries(data)) {
+                $('#answers').append(`<strong>${question}:</strong> ${answer}<br>`);
+            }
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+});
+
+$('#customQuestionForm').on('submit', function(e) {
+    e.preventDefault();
+    var customQuestion = $('[name="custom_question"]').val();
+    var formData = new FormData();
+    formData.append('custom_question', customQuestion);
+    formData.append('file', $('input[type=file]')[0].files[0]);  // Append the file to formData
+
+    // Show loading div
+    $('#loading').show();
+
+    $.ajax({
+        url: '/',
+        type: 'POST',
+        data: formData,
+        success: function(data) {
+            // Hide loading div
+            $('#loading').hide();
+
+            console.log("Response from server:", data); // Debug the response
+
+            if (data.custom_question) {
+                $('#customAnswer').html(`<strong>Custom Question:</strong> ${data.custom_question}<br>`);
+            } else {
+                $('#customAnswer').html(`<strong>Error:</strong> No answer found.<br>`);
+            }
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+});
+
+
+
+
+</script>
+
+</body>
+</html>

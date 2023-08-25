@@ -1,0 +1,35 @@
+h1, h2 {
+    color: #2c3e50;  /* Darker shade */
+    font-size: small;
+}
+
+h3, h4 {
+    color: #34495e;
+    font-size: small;  /* Slightly lighter shade */
+}
+
+p, input, button {
+    color: #7f8c8d;  /* Gray shade for text and inputs */
+    font-size: small;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0.8em;
+    background-color: #ecf0f1; /* Very light gray */
+}
+
+.description {
+    background-color: #f6da07; /* Light green shade */
+    padding: 0.3em; /* Smaller padding for less space */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #050101;  /* Black text */
+   
+    border: 1px solid black; /* Black border */
+    font-size: 0.7em; /* Slightly smaller font for reduced space */
+}
+button:hover, input[type="submit"]:hover {
+    background-color: #45a049;  /* Slightly darker green */
+    color: #ffffff;  /* White text */
+}
