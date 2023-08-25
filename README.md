@@ -1,15 +1,19 @@
-Receipt Analyzer
+****Receipt Analyzer****
 Receipt Analyzer is a Flask web application that uses a machine learning model from Hugging Face's pipeline to extract and answer questions from uploaded receipts.
 
-Features:
-File Input: Users can upload both images and PDFs of receipts.
+**Features:**
+**File Input:** Users can upload both images and PDFs of receipts.
 Predefined Questions: The tool automatically extracts and answers common questions such as:
+
+
 Name of the person
 Name of the company
 Subtotal
 Total
 Address
 Order ID
+
+
 Custom Questions: Users can input custom questions about the receipt, which the model will then attempt to answer.
 Technologies Used:
 Flask: Python-based micro web framework used for web application.
